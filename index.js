@@ -25,6 +25,12 @@ async function run() {
 
     const allTasksCollection = client.db("TaskMaster").collection("allTasks");
 
+    //Get all task data
+    app.get('/tasks', async(req,res) => {
+      const result = await allTasksCollection.find().toArray();
+      res.send(result);
+    }) 
+
 
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
@@ -33,7 +39,7 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
