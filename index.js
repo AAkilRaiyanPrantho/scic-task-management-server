@@ -55,6 +55,25 @@ async function run() {
       res.send(result);
     })
 
+    // Updating Tasks
+    app.put("/tasks/:id", async(req,res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const options = { upsert: true};
+      const updatedTask = req.body;
+      const task = {
+        $set: {
+          title: updatedTask.title,
+          description: updatedTask.description,
+          priority: updatedTask.priority,
+          status: updatedTask.status,
+          deadline: updatedTask.deadline
+        }
+      }
+      const result = await allTasksCollection.updateOne(filter, task, options);
+      res.send(result);
+    })
+
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     // Send a ping to confirm a successful connection
